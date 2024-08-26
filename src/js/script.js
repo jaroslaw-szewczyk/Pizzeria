@@ -95,7 +95,8 @@ const select = {
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
-    }
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+    } 
 
     initAccordion() {
       const thisProduct = this;
@@ -156,28 +157,36 @@ const select = {
       for(let paramId in thisProduct.data.params) {
         // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
         const param = thisProduct.data.params[paramId];
-        
+       
         // for every option in this category
         for(let optionId in param.options) {
           // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
-        
-          let selectedOption = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
-         
-          if(selectedOption == true && !option.default){  
+
+          const selectedOption = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+          
+          if(selectedOption && !option.default){  
             price += option.price;     
-          } else if(selectedOption == false && option.default) {
+          } else if(!selectedOption && option.default) {
             price -= option.price;
           }
          
-        }
+          //searching for the img element from the DOM
+          const optionImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId); 
+          
+          //Adding and removing active class
+          if(optionImage && selectedOption){
+            optionImage.classList.add(classNames.menuProduct.imageVisible);
+          } else if(optionImage && !selectedOption){
+            optionImage.classList.remove(classNames.menuProduct.imageVisible);
+          }
       }
-      console.log(price);
+      
       // update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;
     }
   }
-
+  }
 
   const app = {
     initMenu: function(){
