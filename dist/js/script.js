@@ -129,7 +129,7 @@
        
       thisProduct.dom.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       thisProduct.dom.form = thisProduct.element.querySelector(select.menuProduct.form);
-      thisProduct.dom.formInputs = thisProduct.element.querySelector(select.menuProduct.form).querySelectorAll(select.all.formInputs);
+      thisProduct.dom.formInputs = thisProduct.element.querySelectorAll(select.all.formInputs);
       thisProduct.dom.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.dom.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       thisProduct.dom.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
