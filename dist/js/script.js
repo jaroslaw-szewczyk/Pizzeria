@@ -103,7 +103,7 @@
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
       
-      console.log('new product: ',thisProduct);
+      // console.log('new product: ',thisProduct);
     }
 
     renderInMenu() {
@@ -125,16 +125,15 @@
     getElements(){
       const thisProduct = this;
     
-      thisProduct.dom = {
-        accordionTrigger: thisProduct.element.querySelector(select.menuProduct.clickable),
-        form: thisProduct.element.querySelector(select.menuProduct.form),
-        formInputs: thisProduct.element.querySelector(select.menuProduct.form).querySelectorAll(select.all.formInputs),
-        cartButton: thisProduct.element.querySelector(select.menuProduct.cartButton),
-        priceElem: thisProduct.element.querySelector(select.menuProduct.priceElem),
-        imageWrapper: thisProduct.element.querySelector(select.menuProduct.imageWrapper),
-        amountWidgetElem: thisProduct.element.querySelector(select.menuProduct.amountWidget),
-      };
-
+      thisProduct.dom = {}
+       
+      thisProduct.dom.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisProduct.dom.form = thisProduct.element.querySelector(select.menuProduct.form);
+      thisProduct.dom.formInputs = thisProduct.element.querySelector(select.menuProduct.form).querySelectorAll(select.all.formInputs);
+      thisProduct.dom.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      thisProduct.dom.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.dom.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      thisProduct.dom.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
     }
 
     initAmountWidget() {
@@ -321,6 +320,7 @@
       thisCard.products = [];
 
       thisCard.getElements(element);
+      thisCard.initActions();
 
       console.log('New Cart: ', thisCard);
 
@@ -330,7 +330,20 @@
       const thisCard = this;
 
       thisCard.dom = {};
+
       thisCard.dom.wrapper = element;
+      thisCard.dom.toggleTrigger = thisCard.dom.wrapper.querySelector(select.cart.toggleTrigger); 
+
+
+      console.log('to ja: ',thisCard.dom);
+    }
+
+    initActions() {
+      const thisCard = this;
+
+      thisCard.dom.toggleTrigger.addEventListener('click', ()=>{
+        thisCard.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
     }
   }
 
@@ -366,6 +379,7 @@
       
       thisApp.initData();
       thisApp.initMenu();
+      thisApp.initCart();
     },
   };
 
