@@ -91,7 +91,7 @@
   const activeProduct = [];
 
   class Product {
-    constructor(id, data){
+    constructor(id, data) {
       const thisProduct = this;
       thisProduct.id = id;
       thisProduct.data = data;
@@ -102,6 +102,7 @@
       thisProduct.initOrderForm();
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
+      thisProduct.prepareCartProductParams();
       
       // console.log('new product: ',thisProduct);
     }
@@ -122,7 +123,7 @@
       menuContainer.appendChild(thisProduct.element);
     }
 
-    getElements(){
+    getElements() {
       const thisProduct = this;
     
       thisProduct.dom = {}
@@ -172,7 +173,7 @@
       });
     }
 
-    initOrderForm(){
+    initOrderForm() {
       const thisProduct = this;
 
       thisProduct.dom.form.addEventListener('submit', function(event){
@@ -183,16 +184,18 @@
       for(let input of thisProduct.dom.formInputs){
         input.addEventListener('change', function(){
           thisProduct.processOrder();
+          thisProduct.prepareCartProductParams();
         });
       }
       
       thisProduct.dom.cartButton.addEventListener('click', function(event){
         event.preventDefault();
         thisProduct.processOrder();
+        thisProduct.addToCart();
       });
     }
 
-    processOrder(){
+    processOrder() {
       const thisProduct = this;
 
       // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
@@ -231,14 +234,70 @@
         }
       }
 
+      //Adding the current single price to thisProduct
+      thisProduct.sellingPrice = price;
+
       //multiply price by amount
       price *= thisProduct.amountWidget.value;
 
       // update calculated price in the HTML
       thisProduct.dom.priceElem.innerHTML = price;
     }
-  }
 
+    addToCart() {
+      const thisProduct = this;
+
+      app.cart.add(thisProduct.prepareCartProduct());
+    }
+
+    prepareCartProduct() {
+      const thisProduct = this;
+      
+      //declaration of an empty object to store order data
+      const productSummary = {};
+
+      // const params = {};
+
+      //Adding data to an object
+      productSummary.id = thisProduct.id;
+      productSummary.name = thisProduct.data.name;
+      productSummary.amount = thisProduct.amountWidget.value;
+      productSummary.priceSingle = thisProduct.sellingPrice;
+      productSummary.price = productSummary.priceSingle * productSummary.amount;
+
+      return productSummary;
+    }
+
+    prepareCartProductParams() {
+
+      const thisProduct = this;
+
+      const formData = utils.serializeFormToObject(thisProduct.dom.form);
+      const params = {};
+
+      // for very category (param)
+      for(let paramId in thisProduct.data.params) {
+        const param = thisProduct.data.params[paramId];
+      
+        // create category param in params const eg. params = { ingredients: { name: 'Ingredients', options: {}}}
+        params[paramId] = {
+          label: param.label,
+          options: {}
+        }
+
+          // for every option in this category
+          for(let optionId in param.options) {
+            const option = param.options[optionId];
+            const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+
+          if (optionSelected) {
+            params[paramId].options[optionId] = option.label;
+          }
+        }
+      }
+      return params;
+    }
+  }
   class AmountWidget {
     constructor(element){
       const thisWidget = this;
@@ -322,7 +381,7 @@
       thisCard.getElements(element);
       thisCard.initActions();
 
-      console.log('New Cart: ', thisCard);
+      // console.log('New Cart: ', thisCard);
 
     }
 
@@ -333,9 +392,6 @@
 
       thisCard.dom.wrapper = element;
       thisCard.dom.toggleTrigger = thisCard.dom.wrapper.querySelector(select.cart.toggleTrigger); 
-
-
-      console.log('to ja: ',thisCard.dom);
     }
 
     initActions() {
@@ -344,6 +400,10 @@
       thisCard.dom.toggleTrigger.addEventListener('click', ()=>{
         thisCard.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
+    }
+
+    add(menuProduct) {
+      console.log('adding product: ', menuProduct);
     }
   }
 
