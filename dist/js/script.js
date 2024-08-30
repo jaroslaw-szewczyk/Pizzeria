@@ -410,6 +410,10 @@
       thisCart.dom.productList.addEventListener('updated', ()=> {
         thisCart.update();
       });
+
+      thisCart.dom.productList.addEventListener('remove', (event)=>{
+        thisCart.remove(event.detail.cartProduct);
+      });
     }
 
     add(menuProduct) {
@@ -452,6 +456,22 @@
       for(const totalCost of thisCart.dom.totalPrice){
         totalCost.innerHTML = thisCart.totalPrice;
       }
+    }
+
+    remove(product){
+      const thisCart = this;
+      
+      //Searching for an index in an array of products
+      const productToRemove = thisCart.products.indexOf(product);
+      
+      //removing an element from the array
+      thisCart.products.splice(productToRemove, 1);
+      
+      //removing an element from the DOM
+      product.dom.wrapper.remove();
+      
+      //basket update
+      thisCart.update();
     }
   }
 
