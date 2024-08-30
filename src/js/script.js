@@ -256,15 +256,14 @@
       //declaration of an empty object to store order data
       const productSummary = {};
 
-      // const params = {};
-
       //Adding data to an object
       productSummary.id = thisProduct.id;
       productSummary.name = thisProduct.data.name;
       productSummary.amount = thisProduct.amountWidget.value;
       productSummary.priceSingle = thisProduct.sellingPrice;
       productSummary.price = productSummary.priceSingle * productSummary.amount;
-
+      productSummary.params = thisProduct.prepareCartProductParams();
+      
       return productSummary;
     }
 
@@ -298,6 +297,7 @@
       return params;
     }
   }
+
   class AmountWidget {
     constructor(element){
       const thisWidget = this;
@@ -392,6 +392,7 @@
 
       thisCard.dom.wrapper = element;
       thisCard.dom.toggleTrigger = thisCard.dom.wrapper.querySelector(select.cart.toggleTrigger); 
+      thisCard.dom.productList = thisCard.dom.wrapper.querySelector(select.cart.productList);
     }
 
     initActions() {
@@ -403,7 +404,13 @@
     }
 
     add(menuProduct) {
-      console.log('adding product: ', menuProduct);
+      const thisCard = this;
+      
+      const generatedHTML = templates.cartProduct(menuProduct);
+      
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
+
+      thisCard.dom.productList.appendChild(generatedDOM);
     }
   }
 
