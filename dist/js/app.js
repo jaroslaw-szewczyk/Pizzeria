@@ -1,6 +1,7 @@
 import { settings, select, classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
+import Booking from './components/Booking.js';
   
 const app = {
 
@@ -67,24 +68,21 @@ const app = {
   },
 
   initData: function(){
-      const thisApp = this;
-      thisApp.data = {};
-      const url = settings.db.url + '/' + settings.db.products;
-      fetch(url)
-        .then(function(rawResponse){
-          return rawResponse.json();
-        })
-        .then(function(parsedResponse){
-          console.log('parsedResponse', parsedResponse);
+    const thisApp = this;
+    thisApp.data = {};
+    const url = settings.db.url + '/' + settings.db.products;
+    fetch(url)
+      .then(function(rawResponse){
+        return rawResponse.json();
+      })
+      .then(function(parsedResponse){
 
-          /* save parsedResponse at thisApp.data.products */
-          thisApp.data.products = parsedResponse;
+        /* save parsedResponse at thisApp.data.products */
+        thisApp.data.products = parsedResponse;
 
-          /* execute initMenu method */
-          thisApp.initMenu();
-        });
-
-        console.log('thisApp.data', JSON.stringify(thisApp.data));
+        /* execute initMenu method */
+        thisApp.initMenu();
+      });
   },
 
   initCart: function() {
@@ -100,6 +98,14 @@ const app = {
       })
   },
 
+  initBooking: function() {
+    const thisApp = this;
+
+    const widgetBookingContainer = document.querySelector(select.containerOf.booking);
+
+    thisApp.booking = new Booking(widgetBookingContainer);
+  },
+
   init: function() {
       const thisApp = this;
       // console.log('*** App starting ***');
@@ -112,6 +118,7 @@ const app = {
 
       thisApp.initData();
       thisApp.initCart();
+      thisApp.initBooking();
   },
 };
 
