@@ -42,6 +42,7 @@ class Booking {
 
         /* find hourPicker element */
         thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
+        console.log('hourPicker',thisBooking.dom.hourPicker);
     }
 
     initWidgets() {
