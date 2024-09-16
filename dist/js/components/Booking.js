@@ -196,7 +196,7 @@ class Booking {
         thisBooking.dom.orderBtn = thisBooking.dom.wrapper.querySelector(select.booking.orderBtn);
     }   
 
-    preparStarters() {
+    prepareStarters() {
         const thisBooking = this;
        
         for(const starter of thisBooking.dom.starters){
@@ -211,7 +211,7 @@ class Booking {
         }
     }
 
-    preperPayload() {
+    preparePayload() {
         const thisBooking = this;
 
         const url = settings.db.url + '/' + settings.db.bookings;
