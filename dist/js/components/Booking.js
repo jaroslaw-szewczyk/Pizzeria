@@ -10,11 +10,12 @@ class Booking {
         const thisBooking = this;
         thisBooking.selected = 0;
         thisBooking.starters = [];
+        thisBooking.table = null;
 
         thisBooking.render(widgetBookingContainer);
         thisBooking.initWidgets();
         thisBooking.getData();
-        thisBooking.preparStarters();
+        thisBooking.prepareStarters();
         thisBooking.sendBooking();
     }
 
@@ -227,7 +228,6 @@ class Booking {
             }
         }
  
-
         const payload = {
             "date": thisBooking.datePicker.value,
             "hour": thisBooking.hourPicker.value,
@@ -258,9 +258,9 @@ class Booking {
     sendBooking() {
         const thisBooking = this;
 
-        thisBooking.dom.orderBtn.addEventListener('submit', function(event){
+        thisBooking.dom.orderBtn.addEventListener('click', function(event){
             event.preventDefault();
-            thisBooking.preperPayload();
+            thisBooking.preparePayload();
         });
     }
 
