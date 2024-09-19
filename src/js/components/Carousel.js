@@ -1,9 +1,11 @@
-import { select } from "../settings";
-import Flickity from "../../vendor/flickity.pkgd.min.js"
+import { select } from '../settings.js'
 
 class Carousel {
-    constructor() {
-        const thisCarousel = this();
+    constructor(element) {
+        const thisCarousel = this;
+        thisCarousel.element = element;
+
+        // console.log('constructor',thisCarousel.element);
 
         thisCarousel.render();
         thisCarousel.initPlugin();
@@ -15,21 +17,20 @@ class Carousel {
         thisCarousel.dom = {};
 
         // Selecting carusle form DOM 
-        thisCarousel.dom.carulse = document.querySelector(select.carousel.mainCarousel);
-        console.log(thisCarousel.dom.carousel);
+        thisCarousel.dom.carulse = thisCarousel.element.querySelector(select.carousel.mainCarousel);
     }
 
     initPlugin() {
         const thisCarousel = this;
 
+        
         //Init Flickity
-        var flkty = new Flickity( thisCarousel.dom.carulse, {
+        // eslint-disable-next-line no-undef
+        flkty = new Flickity( thisCarousel.dom.carulse, {
             // options
             cellAlign: 'left',
             contain: true
           });
-
-          console.log(flkty);
     }
     
 }

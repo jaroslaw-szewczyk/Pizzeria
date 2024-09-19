@@ -82,7 +82,8 @@ export const select = {
     },
 
     carousel: {
-      mainCarousel: 'carousel',
+      carouselContainer: '.carousel-container',
+      mainCarousel: '.carousel',
     }
     
   };
