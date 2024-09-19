@@ -80,6 +80,10 @@ export const select = {
       edit: '[href="#edit"]',
       remove: '[href="#remove"]',
     },
+
+    carousel: {
+      mainCarousel: 'carousel',
+    }
     
   };
   
