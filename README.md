@@ -1,1 +1,1 @@
-https://975021bb-f594-41a9-bc76-824de3857772-00-38vq4wkumdygf.kirk.replit.dev/#/home
+https://75a5f7d8-d04f-4dbd-a5a3-3a295bdb51a7-00-3isyx4blm2x99.kirk.replit.dev/
